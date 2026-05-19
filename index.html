@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<!-- ==================================================================
+     LONG DOCUMENT TEMPLATE · parchment design system
+     多页 A4 白皮书/技术报告/年度总结
+     结构：封面 -> 目录 -> 执行摘要 -> 正文章节 -> 附录
+     ================================================================== -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Tick Daily 产品白皮书</title>
+<meta name="author" content="Holy AI Tech">
+<meta name="description" content="Tick Daily 产品白皮书：以极简打卡、本地数据和身份投票机制，重新定义轻量习惯养成工具。">
+<meta name="keywords" content="Tick Daily, 习惯打卡, 本地隐私, 身份投票, 极简工具">
+<meta name="generator" content="Kami">
+<style>
+  /* Regular weight */
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("../fonts/TsangerJinKai02-W04.ttf") format("truetype"),
+       url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  /* Bold weight - W05 for all bold variants */
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("../fonts/TsangerJinKai02-W05.ttf") format("truetype"),
+       url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", "Source Han Serif SC",
+                   "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+
+    @bottom-center {
+      content: counter(page) "  ·  Tick Daily 产品白皮书";
+      font-family: "TsangerJinKai02", "Source Han Serif SC",
+                   "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+
+  @page:first {
+    @top-right { content: ""; }
+    @bottom-center { content: ""; }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory:     #faf9f5;
+    --near-black:#141413;
+    --dark-warm: #3d3d3a;
+    --olive:     #504e49;
+    --stone:     #6b6a64;
+    --brand:     #1B365D;
+    --border:    #e8e6dc;
+    --border-soft:#e5e3d8;
+    --tag-bg:    #E4ECF5;
+    --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+    --sans: var(--serif);
+
+    --rhythm-module:  14pt;
+    --rhythm-section: 18pt;
+  }
+
+  html, body { background: var(--parchment); }
+
+  @media screen {
+    body { max-width: 210mm; margin: 0 auto; padding: 20mm 22mm 22mm 22mm; }
+  }
+
+  body {
+    color: var(--near-black);
+    font-family: var(--serif);
+    font-size: 10.5pt;
+    line-height: 1.55;
+    letter-spacing: 0.3pt;
+    widows: 3;
+    orphans: 3;
+  }
+
+  .sans {
+    font-family: var(--sans);
+  }
+
+  /* ========== COVER ========== */
+  .cover {
+    min-height: 240mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40mm 0 0 0;
+    break-after: page;
+  }
+  .cover-eyebrow {
+    font-family: var(--sans);
+    font-size: 10pt;
+    color: var(--brand);
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    margin-bottom: 18pt;
+  }
+  .cover-title {
+    font-size: 36pt;
+    font-weight: 500;
+    color: var(--near-black);
+    line-height: 1.15;
+    letter-spacing: 0.3pt;
+    margin-bottom: 16pt;
+  }
+  .cover-sub {
+    font-family: var(--sans);
+    font-size: 14pt;
+    color: var(--olive);
+    line-height: 1.5;
+    max-width: 85%;
+    margin-bottom: 30pt;
+  }
+  .cover-meta {
+    font-family: var(--sans);
+    font-size: 10pt;
+    color: var(--stone);
+    line-height: 1.5;
+  }
+  .cover-meta strong {
+    color: var(--dark-warm);
+    font-weight: 500;
+  }
+
+  /* ========== TOC（目录）========== */
+  .toc { break-after: page; }
+  .toc h2 {
+    font-size: 22pt;
+    font-weight: 500;
+    margin-bottom: var(--rhythm-module);
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6pt 0;
+    border-bottom: 0.3pt dotted var(--border);
+    font-size: 11pt;
+  }
+  .toc-item:last-of-type { border-bottom: none; }
+  .toc-num {
+    color: var(--brand);
+    font-weight: 500;
+    min-width: 30pt;
+  }
+  .toc-title {
+    flex: 1;
+    color: var(--near-black);
+    padding-left: 6pt;
+  }
+  .toc-page {
+    color: var(--stone);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ========== HEADINGS ========== */
+  h1 {
+    font-size: 22pt;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0 0 10pt 0;
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+    color: var(--near-black);
+    break-after: avoid;
+  }
+
+  h2 {
+    font-size: 16pt;
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 24pt 0 8pt 0;
+    color: var(--near-black);
+    break-after: avoid;
+    string-set: section-title content();
+  }
+
+  h3 {
+    font-size: 13pt;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 18pt 0 6pt 0;
+    color: var(--dark-warm);
+    break-after: avoid;
+  }
+
+  .chapter-num {
+    font-family: var(--sans);
+    font-size: 10pt;
+    color: var(--brand);
+    letter-spacing: 1pt;
+    text-transform: uppercase;
+    margin-bottom: 6pt;
+  }
+
+  /* ========== PARAGRAPHS ========== */
+  p {
+    margin: 0 0 10pt 0;
+    line-height: 1.55;
+    color: var(--near-black);
+    widows: 2;
+    orphans: 2;
+  }
+
+  .lead {
+    font-size: 12pt;
+    line-height: 1.55;
+    color: var(--dark-warm);
+    margin-bottom: var(--rhythm-module);
+  }
+
+  .hl { color: var(--brand); font-weight: 500; }
+  strong { font-weight: 500; }
+
+  /* ========== LISTS ========== */
+  ul, ol {
+    margin: 6pt 0 10pt 0;
+    padding-left: 20pt;
+    line-height: 1.55;
+  }
+  ul li::marker { color: var(--brand); }
+  ol li::marker { color: var(--brand); font-weight: 500; }
+
+  /* ========== QUOTE ========== */
+  blockquote, .quote {
+    border-left: 2pt solid var(--brand);
+    margin: 12pt 0;
+    padding: 4pt 0 4pt 16pt;
+    color: var(--olive);
+    line-height: 1.55;
+    break-inside: avoid;
+  }
+  blockquote .cite, .quote .cite {
+    display: block;
+    font-size: 9pt;
+    color: var(--stone);
+    margin-top: 4pt;
+  }
+
+  /* ========== CODE ========== */
+  /* Mono first for English glyphs, then CJK fallback so Chinese comments
+     inside code/pre render correctly. A mono-only chain causes missing
+     glyphs rendered as "?" or missing-glyph boxes in WeasyPrint when the system lacks
+     a mono font with CJK coverage. */
+  code {
+    font-family: "JetBrains Mono", "SF Mono", Consolas,
+                 "TsangerJinKai02", "Source Han Serif SC",
+                 "Noto Serif CJK SC", "Songti SC", monospace;
+    font-size: 9pt;
+    background: var(--ivory);
+    padding: 1pt 4pt;
+    border-radius: 2pt;
+    color: var(--dark-warm);
+  }
+  pre {
+    font-family: "JetBrains Mono", "SF Mono", Consolas,
+                 "TsangerJinKai02", "Source Han Serif SC",
+                 "Noto Serif CJK SC", "Songti SC", monospace;
+    font-size: 9pt;
+    line-height: 1.5;
+    background: var(--ivory);
+    border-radius: 4pt;
+    padding: 10pt 14pt;
+    margin: 10pt 0;
+    white-space: pre-wrap;
+    color: var(--near-black);
+    break-inside: avoid;
+  }
+  pre code { background: transparent; padding: 0; font-size: inherit; }
+
+  /* ========== TABLE (kami-table) ========== */
+  table, .kami-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin: 12pt 0;
+    break-inside: avoid;
+  }
+  table th, .kami-table th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--dark-warm);
+    padding: 6pt 8pt;
+    border-bottom: 1pt solid var(--border);
+    background: transparent;
+  }
+  table td, .kami-table td {
+    padding: 5pt 8pt;
+    border-bottom: 0.3pt solid var(--border-soft);
+    vertical-align: top;
+  }
+  table.compact th, .kami-table.compact th { padding: 3pt 6pt; font-size: 8pt; }
+  table.compact td, .kami-table.compact td { padding: 2pt 6pt; font-size: 8pt; line-height: 1.4; }
+  table.financial td:not(:first-child), .kami-table.financial td:not(:first-child) {
+    text-align: right; font-variant-numeric: tabular-nums;
+  }
+  table.financial th:not(:first-child), .kami-table.financial th:not(:first-child) { text-align: right; }
+  table.striped tbody tr:nth-child(even) td, .kami-table.striped tbody tr:nth-child(even) td {
+    background: var(--ivory);
+  }
+  table .total td, .kami-table .total td {
+    font-weight: 500; border-top: 1pt solid var(--brand); border-bottom: none; color: var(--near-black);
+  }
+
+  /* ========== CALLOUT ========== */
+  .callout {
+    background: var(--ivory);
+    border-left: 2pt solid var(--brand);
+    padding: 10pt 14pt;
+    border-radius: 3pt;
+    margin: 12pt 0;
+    line-height: 1.55;
+    break-inside: avoid;
+  }
+  .callout blockquote,
+  .callout .quote {
+    border-left: none;
+    padding-left: 0;
+    margin: 6pt 0;
+    color: var(--olive);
+  }
+  .callout blockquote:first-child,
+  .callout .quote:first-child { margin-top: 0; }
+  .callout blockquote:last-child,
+  .callout .quote:last-child  { margin-bottom: 0; }
+
+  .takeaway {
+    background: var(--ivory);
+    border-radius: 4pt;
+    padding: 10pt 14pt;
+    margin: 14pt 0;
+    break-inside: avoid;
+  }
+  .takeaway-label {
+    font-family: var(--sans);
+    font-size: 9pt;
+    color: var(--brand);
+    letter-spacing: 0.5pt;
+    text-transform: uppercase;
+    margin-bottom: 4pt;
+  }
+
+  /* ========== TAG ========== */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--brand);
+    font-family: var(--sans);
+    font-size: 9pt;
+    font-weight: 500;
+    padding: 1pt 6pt;
+    border-radius: 3pt;
+    margin-right: 4pt;
+  }
+
+  /* ========== FIGURE ========== */
+  figure {
+    margin: 14pt 0;
+    break-inside: avoid;
+  }
+  figure img {
+    max-width: 100%;
+    border-radius: 4pt;
+  }
+  figcaption {
+    font-family: var(--sans);
+    font-size: 9pt;
+    color: var(--stone);
+    margin-top: 6pt;
+    text-align: center;
+  }
+
+  /* ========== EXECUTIVE SUMMARY ========== */
+  .exec-summary {
+    background: var(--ivory);
+    border-left: 1.4pt solid var(--brand);
+    border-radius: 6pt;
+    padding: 16pt 20pt;
+    margin: 14pt 0;
+    break-inside: avoid;
+  }
+  .exec-summary h2 {
+    margin-top: 0;
+    font-size: 13pt;
+  }
+
+  /* ========== CHAPTER BREAK ========== */
+  .chapter { break-before: page; }
+</style>
+</head>
+<body>
+
+<!-- ═════════════ COVER ═════════════ -->
+<section class="cover">
+  <div>
+    <div class="cover-eyebrow">Product White Paper · iOS Habit Tracker</div>
+    <figure>
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f2/03/49/f2034961-3ad9-30aa-7ef7-dfacc2c91bb2/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg" alt="Tick Daily App Icon" width="72" height="72">
+    </figure>
+    <div class="cover-title">Tick Daily<br>产品白皮书</div>
+    <div class="cover-sub">一款把习惯养成压缩到一次点击的极简工具：少一点管理，多一点行动；少一点云端账户，多一点本地自主。</div>
+  </div>
+  <div class="cover-meta">
+    <strong>Holy AI Tech</strong><br>
+    V1.0  ·  2026.05<br>
+    基于 App Store 公开资料整理
+  </div>
+</section>
+
+<!-- ═════════════ 目录 ═════════════ -->
+<section class="toc">
+  <h2>目录</h2>
+  <div class="toc-item">
+    <span class="toc-num">01</span>
+    <span class="toc-title">执行摘要</span>
+    <span class="toc-page">03</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">02</span>
+    <span class="toc-title">问题定义：习惯工具为何越做越重</span>
+    <span class="toc-page">04</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">03</span>
+    <span class="toc-title">产品原则：一次点击与本地优先</span>
+    <span class="toc-page">05</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">04</span>
+    <span class="toc-title">功能系统：记录、反馈、身份感</span>
+    <span class="toc-page">07</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">05</span>
+    <span class="toc-title">发布状态、边界与参考资料</span>
+    <span class="toc-page">09</span>
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 01：执行摘要 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">01 · Executive Summary</div>
+  <h1>执行摘要</h1>
+
+  <p class="lead">
+    Tick Daily 的产品判断很窄，也因此清晰：习惯养成工具不必先变成项目管理系统。它把核心动作收束为 <span class="hl">打开、确认、完成</span>，再用日历、连续天数与身份投票机制，让用户看到自己正在积累什么。
+  </p>
+
+  <div class="exec-summary">
+    <h2>核心结论</h2>
+    <ul>
+      <li><strong>定位</strong>：Tick Daily 是 iOS 上的极简习惯打卡应用，App Store 分类为 Utilities。</li>
+      <li><strong>交互主张</strong>：产品围绕一次点击完成打卡，减少配置、分析和社交压力。</li>
+      <li><strong>数据边界</strong>：公开描述强调本地存储、无需注册、离线可用，适合不希望把私人习惯数据交给账户体系的用户。</li>
+      <li><strong>版本状态</strong>：App Store 显示首发日期为 2026-01-07，版本 1.2 于 2026-01-25 更新。</li>
+      <li><strong>公开缺口</strong>：截至本白皮书整理时，App Store 阿联酋区未展示用户评分样本，用户规模、留存率与收入数据未公开。</li>
+    </ul>
+  </div>
+
+  <div class="takeaway">
+    <div class="takeaway-label">本文档回答的问题</div>
+    Tick Daily 为什么选择克制而非堆功能？它如何把一次打卡转化为可见的长期反馈？当一款习惯工具承诺本地优先时，哪些能力是边界，哪些能力是优势？
+  </div>
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>事实项</th>
+        <th>公开信息</th>
+        <th>白皮书使用方式</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>应用名称</td>
+        <td>Tick Daily</td>
+        <td>作为产品主体</td>
+      </tr>
+      <tr>
+        <td>开发者</td>
+        <td>Holy AI Tech</td>
+        <td>作为发布方署名</td>
+      </tr>
+      <tr>
+        <td>系统要求</td>
+        <td>iOS 17.0 或更高</td>
+        <td>限定目标平台</td>
+      </tr>
+      <tr>
+        <td>语言</td>
+        <td>英文、中文</td>
+        <td>说明跨语言可用性</td>
+      </tr>
+      <tr>
+        <td>价格</td>
+        <td>AED 7.99，阿联酋区展示价</td>
+        <td>仅作为地区展示价格，不外推全球定价</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═════════════ Chapter 02：背景 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">02 · Problem Definition</div>
+  <h1>问题定义：习惯工具为何越做越重</h1>
+
+  <p class="lead">
+    习惯养成的难点通常不是缺少统计面板，而是行为发生前的阻力太高。Tick Daily 对这个问题的回答是把产品设计回收到一个判断：记录动作越轻，用户越可能把注意力留给习惯本身。
+  </p>
+
+  <h2>从管理习惯到执行习惯</h2>
+  <p>很多习惯工具把用户带入“管理习惯”的流程：创建多个项目、设置复杂频率、比较曲线、调整目标、复盘失败原因。这些能力对高阶用户有价值，但对刚开始坚持的人来说，配置本身会变成新的任务。</p>
+  <p>Tick Daily 的差异在于，它并不试图替代日程、待办、知识库或社交社区。它只保留“今天是否完成”这个最小可验证事实，再把事实呈现在月历、连续天数与最佳记录中。这个选择牺牲了多维分析，但换来更低的进入成本。</p>
+
+  <div class="callout">
+    核心产品假设：习惯工具的第一性指标不是用户能配置多少规则，而是用户在低意志力状态下是否仍愿意完成一次记录。
+  </div>
+
+  <h2>目标用户画像</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>用户类型</th>
+        <th>典型动机</th>
+        <th>Tick Daily 的匹配点</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>低负担坚持者</td>
+        <td>想开始一个习惯，但不想维护复杂计划</td>
+        <td>一键打卡、连续天数、月度日历</td>
+      </tr>
+      <tr>
+        <td>隐私敏感用户</td>
+        <td>不希望注册账户或同步私人行为数据</td>
+        <td>本地存储、离线可用、无需账号</td>
+      </tr>
+      <tr>
+        <td>审美克制用户</td>
+        <td>偏好低干扰界面，不需要游戏化噪音</td>
+        <td>灰度色系、黑白极简、减少视觉刺激</td>
+      </tr>
+      <tr>
+        <td>身份驱动用户</td>
+        <td>把习惯视为长期身份建设，而非短期任务</td>
+        <td>身份投票系统、成长阶段、成就海报</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═════════════ Chapter 03：产品原则 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">03 · Product Principles</div>
+  <h1>产品原则：一次点击与本地优先</h1>
+
+  <p class="lead">Tick Daily 的产品原则可以概括为三件事：动作短、反馈近、数据归用户。每一项原则都对应一个减法判断，而不是一个功能堆叠方向。</p>
+
+  <h2>原则一：把最重要的动作放到最短路径</h2>
+  <p>打卡行为天然发生在碎片时间：睡前、运动后、学习结束时、通勤间隙。Tick Daily 将打卡路径压缩到一次点击，是为了避免用户先进入“整理状态”再进入“记录状态”。当 App 更新支持桌面小组件后，打卡入口从应用内部进一步延伸到桌面。</p>
+
+  <h2>原则二：反馈不追求热闹，只追求可见</h2>
+  <p>月度日历、当前连续天数、历史最佳成绩与本月完成率构成了一个低噪音反馈系统。它不把用户推向排行、竞赛或复杂报告，而是用少量稳定信号回答三个问题：今天做了吗？最近是否连续？这个月的节奏如何？</p>
+
+  <h2>原则三：本地数据优先是一种产品立场</h2>
+  <p>习惯记录属于私人生活数据：它可能包含健康、学习、自控、情绪或信仰相关信息。Tick Daily 公开描述中强调本地存储、无需注册与离线使用，这让产品少了账户同步、跨设备协作和服务端分析的扩展空间，但换来了清晰的隐私边界。</p>
+
+  <figure>
+    <svg viewBox="0 0 760 260" width="100%" role="img" aria-label="Tick Daily 产品系统示意图">
+      <rect x="0" y="0" width="760" height="260" rx="10" fill="#faf9f5" stroke="#e8e6dc"/>
+      <text x="38" y="42" font-family="TsangerJinKai02, Source Han Serif SC, Songti SC, serif" font-size="18" fill="#141413">Tick Daily 产品系统示意</text>
+      <g font-family="TsangerJinKai02, Source Han Serif SC, Songti SC, serif">
+        <rect x="38" y="78" width="150" height="76" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+        <text x="62" y="111" font-size="15" fill="#1B365D">触发入口</text>
+        <text x="62" y="135" font-size="12" fill="#504e49">App / 小组件</text>
+        <path d="M196 116 L246 116" stroke="#1B365D" stroke-width="2"/>
+        <path d="M246 116 L237 110 L237 122 Z" fill="#1B365D"/>
+
+        <rect x="258" y="78" width="150" height="76" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+        <text x="282" y="111" font-size="15" fill="#1B365D">一次点击</text>
+        <text x="282" y="135" font-size="12" fill="#504e49">完成今日记录</text>
+        <path d="M416 116 L466 116" stroke="#1B365D" stroke-width="2"/>
+        <path d="M466 116 L457 110 L457 122 Z" fill="#1B365D"/>
+
+        <rect x="478" y="78" width="150" height="76" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+        <text x="502" y="111" font-size="15" fill="#1B365D">可见反馈</text>
+        <text x="502" y="135" font-size="12" fill="#504e49">日历 / 连续天数</text>
+
+        <rect x="148" y="184" width="464" height="42" rx="8" fill="#E4ECF5" stroke="#D0DCE9"/>
+        <text x="186" y="211" font-size="14" fill="#1B365D">本地数据层：无需账户 · 离线可用 · 用户自己持有记录</text>
+      </g>
+    </svg>
+    <figcaption>产品系统不从复杂计划开始，而是围绕低摩擦记录、近距离反馈与本地数据边界组织。</figcaption>
+  </figure>
+</section>
+
+<!-- ═════════════ Chapter 04：功能系统 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">04 · Functional System</div>
+  <h1>功能系统：记录、反馈、身份感</h1>
+
+  <p class="lead">Tick Daily 的功能不多，但每个功能都服务于同一个循环：完成一次行动，看到一次证据，再把证据转化为“我正在成为某类人”的身份感。</p>
+
+  <h2>一键打卡：行为发生后的即时确认</h2>
+  <p>一键打卡是 Tick Daily 的核心交互。公开说明提到打卡动画、即时反馈与连续天数展示，说明产品把“完成感”设计为记录流程的一部分。这里的关键不是动画本身，而是让用户在几秒内得到清楚的闭环。</p>
+
+  <h2>日历可视化：用低密度图形表达长期性</h2>
+  <p>月历视图适合习惯产品，因为它天然表达连续、断点与恢复。相比复杂曲线，日历更接近用户对生活节奏的直觉：哪几天完成了，哪几天断了，本月整体状态如何。Tick Daily 同时显示当前连续天数、历史最佳成绩与本月完成率，这些指标足够支撑复盘，但没有把产品推向数据仪表盘。</p>
+
+  <h2>身份投票：把任务完成转译为自我叙事</h2>
+  <p>Tick Daily 的身份投票系统借鉴了《原子习惯》中关于身份与行为关系的思路：每一次行动都在加强某种自我认同。产品将这一理念落到五个成长阶段、习惯金句与成就海报上，让用户不只看到“做了几天”，也看到“我正在往哪个方向移动”。</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>功能模块</th>
+        <th>用户价值</th>
+        <th>设计边界</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>桌面小组件</td>
+        <td>把习惯状态放到桌面，减少打开 App 的摩擦</td>
+        <td>适合快速查看与打卡，不适合承载复杂配置</td>
+      </tr>
+      <tr>
+        <td>灵动岛适配</td>
+        <td>在系统级可视区域显示打卡状态与连续天数</td>
+        <td>只展示关键进度，避免干扰当前任务</td>
+      </tr>
+      <tr>
+        <td>分享海报</td>
+        <td>把阶段性成果转化为可分享的表达</td>
+        <td>分享是结果展示，不应反过来制造社交压力</td>
+      </tr>
+      <tr>
+        <td>黑白极简界面</td>
+        <td>降低颜色、装饰和徽章带来的注意力竞争</td>
+        <td>美学服务于专注，而不是成为新的功能负担</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    从产品战略看，Tick Daily 并不是“少做功能”，而是把功能集中在一个连续循环内：触发、行动、证据、身份。循环之外的功能，越强越可能稀释主线。
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 05：发布状态与附录 ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">05 · Release State & Appendix</div>
+  <h1>发布状态、边界与参考资料</h1>
+
+  <p class="lead">公开资料足以说明 Tick Daily 的定位与当前能力，但不足以支持市场规模、用户增长或商业表现判断。本章把可证实事实、合理推论与缺失信息分开列出。</p>
+
+  <h2>公开版本状态</h2>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>项目</th>
+        <th>信息</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>App Store ID</td>
+        <td>6757288314</td>
+      </tr>
+      <tr>
+        <td>Bundle ID</td>
+        <td><code>com.tick.habittracker</code></td>
+      </tr>
+      <tr>
+        <td>当前版本</td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td>首发日期</td>
+        <td>2026-01-07</td>
+      </tr>
+      <tr>
+        <td>最近版本日期</td>
+        <td>2026-01-25</td>
+      </tr>
+      <tr>
+        <td>内容分级</td>
+        <td>9+</td>
+      </tr>
+      <tr>
+        <td>文件大小</td>
+        <td>1,675,264 bytes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>已知边界</h2>
+  <ol>
+    <li><strong>截图素材缺口</strong>：Apple lookup API 未返回 screenshotUrls，因此本文不展示 UI 截图，也不绘制仿真界面。</li>
+    <li><strong>商业数据缺口</strong>：评分样本、下载量、留存率、转化率与收入数据未公开，本文不使用市场表现论断。</li>
+    <li><strong>平台边界</strong>：公开信息显示最低系统要求为 iOS 17.0；是否支持 watchOS、macOS 独立形态或云同步，公开资料未说明。</li>
+    <li><strong>隐私边界</strong>：本地存储和无需注册来自 App Store 描述；若用于正式合规材料，还应补充隐私政策链接、数据类型声明与 App Privacy 表单截图。</li>
+  </ol>
+
+  <h2>后续产品建议</h2>
+  <p>在不破坏极简定位的前提下，Tick Daily 后续最值得强化的不是更多统计，而是更可靠的“低摩擦入口”：小组件状态稳定性、灵动岛展示清晰度、离线数据备份策略，以及首次使用时对“本地优先”的明确解释。</p>
+  <p>如果进入增长阶段，建议优先补齐三类材料：真实 UI 截图、隐私承诺页、定价与退款说明。它们比抽象口号更能降低用户试用前的不确定性。</p>
+
+  <h2>参考资料</h2>
+  <ul>
+    <li>Apple App Store：<a href="https://apps.apple.com/ae/app/tick-daily/id6757288314">Tick Daily 阿联酋区产品页</a>，访问日期 2026-05-19。</li>
+    <li>Apple iTunes Lookup API：<a href="https://itunes.apple.com/lookup?id=6757288314&amp;country=ae">id 6757288314, country AE</a>，访问日期 2026-05-19。</li>
+  </ul>
+
+  <h2>术语表</h2>
+  <p><strong>身份投票</strong>：把单次习惯行为理解为对某种身份的重复确认。它强调“我是什么样的人”，而不只强调“我完成了什么任务”。</p>
+  <p><strong>本地优先</strong>：产品设计中优先让数据留在用户设备内，减少账户、网络与服务端依赖。它通常带来更清楚的隐私边界，也会限制跨设备同步等能力。</p>
+  <p><strong>低摩擦入口</strong>：用户无需打开完整流程即可完成核心动作的入口，例如桌面小组件或系统级状态区域。</p>
+</section>
+
+</body>
+</html>
