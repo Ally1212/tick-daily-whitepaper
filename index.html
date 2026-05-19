@@ -12,6 +12,11 @@
 <meta name="description" content="Tick Daily 产品白皮书：以极简打卡、本地数据和身份投票机制，重新定义轻量习惯养成工具。">
 <meta name="keywords" content="Tick Daily, 习惯打卡, 本地隐私, 身份投票, 极简工具">
 <meta name="generator" content="Kami">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="alternate" hreflang="zh-CN" href="https://ally1212.github.io/tick-daily-whitepaper/?lang=zh">
+<link rel="alternate" hreflang="en" href="https://ally1212.github.io/tick-daily-whitepaper/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://ally1212.github.io/tick-daily-whitepaper/">
+<link rel="icon" href="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f2/03/49/f2034961-3ad9-30aa-7ef7-dfacc2c91bb2/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg">
 <style>
   /* Regular weight */
   @font-face {
@@ -45,7 +50,7 @@
     }
 
     @bottom-center {
-      content: counter(page) "  ·  Tick Daily 产品白皮书";
+      content: counter(page) "  ·  Tick Daily White Paper";
       font-family: "TsangerJinKai02", "Source Han Serif SC",
                    "Noto Serif CJK SC", "Songti SC", Georgia, serif;
       font-size: 9pt;
@@ -410,10 +415,70 @@
 
   /* ========== CHAPTER BREAK ========== */
   .chapter { break-before: page; }
+
+
+  /* ========== LANGUAGE SWITCH ========== */
+  [data-lang-panel][hidden] { display: none; }
+  .language-bar {
+    position: fixed;
+    z-index: 20;
+    top: 14pt;
+    right: 14pt;
+    display: flex;
+    gap: 4pt;
+    padding: 4pt;
+    background: #faf9f5;
+    border: 0.5pt solid var(--border);
+    border-radius: 999pt;
+    box-shadow: 0 4pt 18pt rgba(20, 20, 19, 0.06);
+  }
+  .language-bar button {
+    appearance: none;
+    border: 0;
+    border-radius: 999pt;
+    background: transparent;
+    color: var(--olive);
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: 9pt;
+    line-height: 1;
+    padding: 6pt 9pt;
+  }
+  .language-bar button[aria-pressed="true"] {
+    background: var(--brand);
+    color: var(--ivory);
+  }
+  @media screen and (max-width: 760px) {
+    body { padding-top: 26mm; }
+    .language-bar { top: 8pt; right: 8pt; }
+  }
+  @media print {
+    .language-bar { display: none; }
+  }
 </style>
+<script>
+  (function () {
+    var saved = null;
+    try {
+      saved = localStorage.getItem('tickDailyWhitepaperLang');
+    } catch (error) {
+      saved = null;
+    }
+    var params = new URLSearchParams(window.location.search);
+    var queryLang = params.get('lang');
+    var browserLangs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+    var browserPrefersChinese = browserLangs.some(function (lang) { return /^zh/i.test(lang); });
+    var initial = queryLang === 'en' || queryLang === 'zh' ? queryLang : saved || (browserPrefersChinese ? 'zh' : 'en');
+    window.__tickDailyInitialLang = initial;
+  })();
+</script>
 </head>
 <body>
-
+<nav class="language-bar" aria-label="Language switcher">
+  <button type="button" data-lang-button="zh" aria-pressed="false">中文</button>
+  <button type="button" data-lang-button="en" aria-pressed="false">EN</button>
+</nav>
+<main data-lang-panel="zh" lang="zh-CN">
 <!-- ═════════════ COVER ═════════════ -->
 <section class="cover">
   <div>
@@ -743,6 +808,384 @@
   <p><strong>本地优先</strong>：产品设计中优先让数据留在用户设备内，减少账户、网络与服务端依赖。它通常带来更清楚的隐私边界，也会限制跨设备同步等能力。</p>
   <p><strong>低摩擦入口</strong>：用户无需打开完整流程即可完成核心动作的入口，例如桌面小组件或系统级状态区域。</p>
 </section>
+</main>
+<main data-lang-panel="en" lang="en" hidden>
 
+<!-- ═════════════ COVER ═════════════ -->
+<section class="cover">
+  <div>
+    <div class="cover-eyebrow">Product White Paper · iOS Habit Tracker</div>
+    <figure>
+      <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/f2/03/49/f2034961-3ad9-30aa-7ef7-dfacc2c91bb2/AppIcon-0-0-1x_U007epad-0-1-85-220.png/100x100bb.jpg" alt="Tick Daily App Icon" width="72" height="72">
+    </figure>
+    <div class="cover-title">Tick Daily<br>Product White Paper</div>
+    <div class="cover-sub">A minimalist habit tracker that compresses habit building into one tap: less management, more action; less cloud account overhead, more local ownership.</div>
+  </div>
+  <div class="cover-meta">
+    <strong>Holy AI Tech</strong><br>
+    V1.0  ·  2026.05<br>
+    Compiled from public App Store information
+  </div>
+</section>
+
+<!-- ═════════════ CONTENTS ═════════════ -->
+<section class="toc">
+  <h2>Contents</h2>
+  <div class="toc-item">
+    <span class="toc-num">01</span>
+    <span class="toc-title">Executive Summary</span>
+    <span class="toc-page">03</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">02</span>
+    <span class="toc-title">Problem Definition: Why Habit Tools Become Heavy</span>
+    <span class="toc-page">04</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">03</span>
+    <span class="toc-title">Product Principles: One Tap and Local First</span>
+    <span class="toc-page">05</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">04</span>
+    <span class="toc-title">Functional System: Record, Feedback, Identity</span>
+    <span class="toc-page">07</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-num">05</span>
+    <span class="toc-title">Release State, Boundaries, and References</span>
+    <span class="toc-page">09</span>
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 01：Executive Summary ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">01 · Executive Summary</div>
+  <h1>Executive Summary</h1>
+
+  <p class="lead">
+    Tick Daily makes a narrow product bet, and that is why the proposition is clear: a habit tracker does not need to become a project management system first. It reduces the core flow to <span class="hl">open, confirm, complete</span>, then uses a calendar, streaks, and an identity-voting model to show users what they are accumulating.
+  </p>
+
+  <div class="exec-summary">
+    <h2>Core Takeaways</h2>
+    <ul>
+      <li><strong>Positioning</strong>: Tick Daily is a minimalist habit tracking app for iOS, listed in the App Store Utilities category.</li>
+      <li><strong>Interaction thesis</strong>: The product centers on one-tap check-ins, reducing setup, analysis, and social pressure.</li>
+      <li><strong>Data boundary</strong>: The public description emphasizes local storage, no account requirement, and offline availability, making it suitable for users who do not want private habit data tied to an account system.</li>
+      <li><strong>Version state</strong>: The App Store shows an initial release date of 2026-01-07, with version 1.2 updated on 2026-01-25.</li>
+      <li><strong>Public gaps</strong>: At the time this paper was prepared, the UAE App Store page did not show a rating sample, and user scale, retention, and revenue data were not public.</li>
+    </ul>
+  </div>
+
+  <div class="takeaway">
+    <div class="takeaway-label">Questions This Paper Answers</div>
+    Why does Tick Daily choose restraint instead of feature accumulation? How does one check-in become visible long-term feedback? When a habit app promises a local-first model, which capabilities are boundaries and which become advantages?
+  </div>
+
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Fact</th>
+        <th>Public Information</th>
+        <th>How This Paper Uses It</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>App name</td>
+        <td>Tick Daily</td>
+        <td>Primary product subject</td>
+      </tr>
+      <tr>
+        <td>Developer</td>
+        <td>Holy AI Tech</td>
+        <td>Publisher attribution</td>
+      </tr>
+      <tr>
+        <td>System requirement</td>
+        <td>iOS 17.0 or later</td>
+        <td>Target platform boundary</td>
+      </tr>
+      <tr>
+        <td>Languages</td>
+        <td>English, Chinese</td>
+        <td>Cross-language availability</td>
+      </tr>
+      <tr>
+        <td>Price</td>
+        <td>AED 7.99, UAE display price</td>
+        <td>Regional display price only, not a global pricing claim</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═════════════ Chapter 02：Problem Definition ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">02 · Problem Definition</div>
+  <h1>Problem Definition: Why Habit Tools Become Heavy</h1>
+
+  <p class="lead">
+    The hard part of habit building is usually not the lack of dashboards. It is the friction before action. Tick Daily answers that problem by returning the product to one judgment: the lighter the recording action, the more attention users can keep on the habit itself.
+  </p>
+
+  <h2>From Managing Habits to Doing Habits</h2>
+  <p>Many habit products move users into a management flow: creating many projects, configuring frequencies, comparing charts, tuning goals, and reviewing failure reasons. Those capabilities can help advanced users, but for someone just beginning, configuration itself can become another task.</p>
+  <p>Tick Daily does not try to replace calendars, to-do lists, knowledge bases, or social communities. It keeps only the smallest verifiable fact: whether today was completed. That fact is then reflected in a monthly calendar, streaks, and best records. The choice gives up multi-dimensional analysis, but lowers the cost of entry.</p>
+
+  <div class="callout">
+    Core product hypothesis: the first-order metric for a habit app is not how many rules a user can configure, but whether the user still wants to record once when willpower is low.
+  </div>
+
+  <h2>Target User Profiles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>User Type</th>
+        <th>Typical Motivation</th>
+        <th>Tick Daily Fit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Low-burden starter</td>
+        <td>Wants to begin a habit without maintaining a complex plan</td>
+        <td>One-tap check-in, streaks, monthly calendar</td>
+      </tr>
+      <tr>
+        <td>Privacy-sensitive user</td>
+        <td>Does not want to register an account or sync private behavior data</td>
+        <td>Local storage, offline availability, no account required</td>
+      </tr>
+      <tr>
+        <td>Minimal-aesthetic user</td>
+        <td>Prefers a quiet interface without noisy gamification</td>
+        <td>Grayscale palette, black-and-white minimalism, reduced visual stimulation</td>
+      </tr>
+      <tr>
+        <td>Identity-driven user</td>
+        <td>Sees habits as long-term identity building, not short-term tasks</td>
+        <td>Identity voting, growth stages, achievement posters</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═════════════ Chapter 03：Product Principles ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">03 · Product Principles</div>
+  <h1>Product Principles: One Tap and Local First</h1>
+
+  <p class="lead">Tick Daily's product principles can be reduced to three ideas: short action, near feedback, and user-owned data. Each principle corresponds to a subtractive choice, not a feature-expansion direction.</p>
+
+  <h2>Principle 1: Put the Most Important Action on the Shortest Path</h2>
+  <p>Check-ins happen in fragmented moments: before sleep, after exercise, after study, or during a commute. Tick Daily compresses the check-in path to one tap so users do not have to enter an organizing state before entering a recording state. With widget support added in version 1.2, the entry point extends from inside the app to the home screen.</p>
+
+  <h2>Principle 2: Feedback Should Be Visible, Not Loud</h2>
+  <p>The monthly calendar, current streak, best record, and monthly completion rate form a low-noise feedback system. The product does not push users toward rankings, contests, or complex reports. Instead, a small set of stable signals answers three questions: was today completed, has the recent rhythm held, and how is this month going?</p>
+
+  <h2>Principle 3: Local-First Data Is a Product Stance</h2>
+  <p>Habit records are private life data. They may include health, study, self-control, mood, or belief-related information. Tick Daily's public description emphasizes local storage, no registration, and offline use. That reduces room for account sync, cross-device collaboration, and server-side analytics, but creates a clear privacy boundary.</p>
+
+  <figure>
+    <svg viewBox="0 0 760 260" width="100%" role="img" aria-label="Tick Daily product system diagram">
+      <rect x="0" y="0" width="760" height="260" rx="10" fill="#faf9f5" stroke="#e8e6dc"/>
+      <text x="38" y="42" font-family="TsangerJinKai02, Source Han Serif SC, Songti SC, serif" font-size="18" fill="#141413">Tick Daily Product System</text>
+      <g font-family="TsangerJinKai02, Source Han Serif SC, Songti SC, serif">
+        <rect x="38" y="78" width="150" height="76" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+        <text x="62" y="111" font-size="15" fill="#1B365D">Entry</text>
+        <text x="62" y="135" font-size="12" fill="#504e49">App / Widget</text>
+        <path d="M196 116 L246 116" stroke="#1B365D" stroke-width="2"/>
+        <path d="M246 116 L237 110 L237 122 Z" fill="#1B365D"/>
+
+        <rect x="258" y="78" width="150" height="76" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+        <text x="282" y="111" font-size="15" fill="#1B365D">One Tap</text>
+        <text x="282" y="135" font-size="12" fill="#504e49">Complete today</text>
+        <path d="M416 116 L466 116" stroke="#1B365D" stroke-width="2"/>
+        <path d="M466 116 L457 110 L457 122 Z" fill="#1B365D"/>
+
+        <rect x="478" y="78" width="150" height="76" rx="8" fill="#f5f4ed" stroke="#e8e6dc"/>
+        <text x="502" y="111" font-size="15" fill="#1B365D">Feedback</text>
+        <text x="502" y="135" font-size="12" fill="#504e49">Calendar / Streak</text>
+
+        <rect x="126" y="184" width="508" height="42" rx="8" fill="#E4ECF5" stroke="#D0DCE9"/>
+        <text x="158" y="211" font-size="14" fill="#1B365D">Local data layer: no account · offline use · user-held records</text>
+      </g>
+    </svg>
+    <figcaption>The product system starts from low-friction recording, close feedback, and a clear local data boundary, not from complex planning.</figcaption>
+  </figure>
+</section>
+
+<!-- ═════════════ Chapter 04：Functional System ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">04 · Functional System</div>
+  <h1>Functional System: Record, Feedback, Identity</h1>
+
+  <p class="lead">Tick Daily has a small feature set, but each feature serves the same loop: complete one action, see one piece of evidence, and convert that evidence into the sense that the user is becoming a certain kind of person.</p>
+
+  <h2>One-Tap Check-In: Immediate Confirmation After Action</h2>
+  <p>One-tap check-in is Tick Daily's core interaction. The public description mentions check-in animation, instant feedback, and streak display, which means the product treats the feeling of completion as part of the recording flow. The important point is not the animation itself, but the clear loop users receive within seconds.</p>
+
+  <h2>Calendar Visualization: Low-Density Graphics for Long-Term Rhythm</h2>
+  <p>A monthly calendar suits a habit product because it naturally expresses continuity, breaks, and recovery. Compared with complex charts, a calendar is closer to how users understand life rhythm: which days were completed, which days broke, and what the month looks like overall. Tick Daily also shows current streak, best record, and monthly completion rate. These signals are enough for reflection without turning the product into a data dashboard.</p>
+
+  <h2>Identity Voting: Translating Task Completion Into Self-Narrative</h2>
+  <p>Tick Daily's identity-voting system draws from the idea in Atomic Habits that every action reinforces an identity. The app turns that idea into five growth stages, habit quotes, and achievement posters, so users see not only how many days they have done something, but also the direction they are moving in.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>User Value</th>
+        <th>Design Boundary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Home Screen Widget</td>
+        <td>Puts habit status on the home screen and reduces the friction of opening the app</td>
+        <td>Good for quick viewing and check-ins, not complex configuration</td>
+      </tr>
+      <tr>
+        <td>Dynamic Island Support</td>
+        <td>Shows check-in state and streaks in a system-level visible area</td>
+        <td>Displays only key progress to avoid interrupting the current task</td>
+      </tr>
+      <tr>
+        <td>Share Posters</td>
+        <td>Turns milestones into a shareable expression</td>
+        <td>Sharing should present a result, not create social pressure</td>
+      </tr>
+      <tr>
+        <td>Black-and-White Minimal Interface</td>
+        <td>Reduces attention competition from color, badges, and decoration</td>
+        <td>Aesthetic restraint serves focus; it should not become another feature burden</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    Strategically, Tick Daily is not simply doing fewer features. It concentrates features inside one loop: trigger, action, evidence, identity. The stronger features become outside that loop, the more likely they are to dilute the product's main line.
+  </div>
+</section>
+
+<!-- ═════════════ Chapter 05：Release State & Appendix ═════════════ -->
+<section class="chapter">
+  <div class="chapter-num">05 · Release State & Appendix</div>
+  <h1>Release State, Boundaries, and References</h1>
+
+  <p class="lead">The public material is enough to describe Tick Daily's positioning and current capabilities, but not enough to support claims about market size, user growth, or commercial performance. This chapter separates verified facts, reasonable interpretation, and missing information.</p>
+
+  <h2>Public Version State</h2>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Information</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>App Store ID</td>
+        <td>6757288314</td>
+      </tr>
+      <tr>
+        <td>Bundle ID</td>
+        <td><code>com.tick.habittracker</code></td>
+      </tr>
+      <tr>
+        <td>Current version</td>
+        <td>1.2</td>
+      </tr>
+      <tr>
+        <td>Initial release date</td>
+        <td>2026-01-07</td>
+      </tr>
+      <tr>
+        <td>Latest version date</td>
+        <td>2026-01-25</td>
+      </tr>
+      <tr>
+        <td>Content rating</td>
+        <td>9+</td>
+      </tr>
+      <tr>
+        <td>File size</td>
+        <td>1,675,264 bytes</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Known Boundaries</h2>
+  <ol>
+    <li><strong>Screenshot material gap</strong>: The Apple Lookup API did not return screenshotUrls, so this paper does not show UI screenshots or draw simulated interfaces.</li>
+    <li><strong>Commercial data gap</strong>: Rating sample, downloads, retention, conversion, and revenue data are not public, so this paper does not make market-performance claims.</li>
+    <li><strong>Platform boundary</strong>: Public information shows iOS 17.0 as the minimum requirement. Public material does not state whether watchOS, standalone macOS, or cloud sync is supported.</li>
+    <li><strong>Privacy boundary</strong>: Local storage and no registration come from the App Store description. For formal compliance material, the privacy policy link, data type declarations, and App Privacy form screenshots should be added.</li>
+  </ol>
+
+  <h2>Product Recommendations</h2>
+  <p>Without breaking the minimalist positioning, the most valuable improvements are not more statistics but more reliable low-friction entry points: widget state stability, Dynamic Island clarity, offline backup strategy, and a clear first-run explanation of what local-first means.</p>
+  <p>If the product enters a growth phase, three materials should be prioritized: real UI screenshots, a privacy commitment page, and pricing/refund notes. These reduce uncertainty before trial more effectively than abstract claims.</p>
+
+  <h2>References</h2>
+  <ul>
+    <li>Apple App Store: <a href="https://apps.apple.com/ae/app/tick-daily/id6757288314">Tick Daily UAE product page</a>, accessed 2026-05-19.</li>
+    <li>Apple iTunes Lookup API: <a href="https://itunes.apple.com/lookup?id=6757288314&amp;country=ae">id 6757288314, country AE</a>, accessed 2026-05-19.</li>
+  </ul>
+
+  <h2>Glossary</h2>
+  <p><strong>Identity voting</strong>: Understanding a single habit action as repeated confirmation of an identity. It emphasizes “what kind of person I am,” not just “what task I completed.”</p>
+  <p><strong>Local first</strong>: A product design stance that keeps data on the user's device and reduces reliance on accounts, networks, and servers. It usually creates a clearer privacy boundary while limiting features such as cross-device sync.</p>
+  <p><strong>Low-friction entry</strong>: An entry point that lets users complete the core action without opening the full workflow, such as a home screen widget or system-level status area.</p>
+</section>
+
+</main>
+<script>
+  (function () {
+    var meta = {
+      zh: {
+        htmlLang: 'zh-CN',
+        title: 'Tick Daily 产品白皮书',
+        description: 'Tick Daily 产品白皮书：以极简打卡、本地数据和身份投票机制，重新定义轻量习惯养成工具。',
+        keywords: 'Tick Daily, 习惯打卡, 本地隐私, 身份投票, 极简工具'
+      },
+      en: {
+        htmlLang: 'en',
+        title: 'Tick Daily Product White Paper',
+        description: 'Tick Daily product white paper: a minimalist habit tracker built around one-tap check-ins, local data, and identity voting.',
+        keywords: 'Tick Daily, habit tracker, local privacy, identity voting, minimalist app'
+      }
+    };
+    var panels = Array.prototype.slice.call(document.querySelectorAll('[data-lang-panel]'));
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('[data-lang-button]'));
+    var desc = document.querySelector('meta[name="description"]');
+    var keywords = document.querySelector('meta[name="keywords"]');
+
+    function setLanguage(lang, persist) {
+      if (!meta[lang]) lang = 'zh';
+      panels.forEach(function (panel) { panel.hidden = panel.dataset.langPanel !== lang; });
+      buttons.forEach(function (button) { button.setAttribute('aria-pressed', String(button.dataset.langButton === lang)); });
+      document.documentElement.lang = meta[lang].htmlLang;
+      document.title = meta[lang].title;
+      if (desc) desc.setAttribute('content', meta[lang].description);
+      if (keywords) keywords.setAttribute('content', meta[lang].keywords);
+      if (persist) {
+        try {
+          localStorage.setItem('tickDailyWhitepaperLang', lang);
+        } catch (error) {
+          /* Ignore storage errors so private browsing still switches language. */
+        }
+      }
+    }
+
+    buttons.forEach(function (button) {
+      button.addEventListener('click', function () { setLanguage(button.dataset.langButton, true); });
+    });
+
+    setLanguage(window.__tickDailyInitialLang || 'zh', false);
+  })();
+</script>
 </body>
 </html>
